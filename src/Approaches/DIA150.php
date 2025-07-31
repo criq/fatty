@@ -19,6 +19,11 @@ class DIA150 extends \Fatty\Approach
 	const CODE = "DIA150";
 	const LABEL_DECLINATED = "dietu DIA150";
 
+	public static function getTitle(): string
+	{
+		return "DIA150";
+	}
+
 	public function calcGoalNutrients(Calculator $calculator): MetricResultCollection
 	{
 		$carbsResult = new QuantityMetricResult(new GoalNutrientsCarbsMetric);

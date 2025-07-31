@@ -29,6 +29,11 @@ class LowEnergyTransition extends \Fatty\Approach
 	const ENERGY_MIN = 800;
 	const PROTEINS_DEFAULT = 82;
 
+	public static function getTitle(): string
+	{
+		return "Přechod k nízkoenergetické dietě";
+	}
+
 	public function calcDays(Calculator $calculator): LowEnergyTransitionDayCollection
 	{
 		$energyDecrement = new Energy(new Amount(static::ENERGY_DECREMENT), static::ENERGY_UNIT);

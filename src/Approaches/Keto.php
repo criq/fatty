@@ -20,6 +20,11 @@ class Keto extends \Fatty\Approach
 	const CODE = "KETO";
 	const LABEL_DECLINATED = "keto dietu";
 
+	public static function getTitle(): string
+	{
+		return "Keto";
+	}
+
 	public function calcGoalNutrients(Calculator $calculator): MetricResultCollection
 	{
 		$carbsResult = new QuantityMetricResult(new GoalNutrientsCarbsMetric);

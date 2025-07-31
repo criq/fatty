@@ -7,4 +7,9 @@ class HighCarb extends \Fatty\Approaches\DiaMama\Standard
 	const CARBS_DEFAULT = 150;
 	const CODE = "DIAMAMA_HIGHCARB";
 	const LABEL_DECLINATED = "vysokosacharidovou dietu";
+
+	public static function getTitle(): string
+	{
+		return "Vysokosacharidová";
+	}
 }

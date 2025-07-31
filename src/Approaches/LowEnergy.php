@@ -24,6 +24,11 @@ class LowEnergy extends \Fatty\Approach
 	const LABEL_DECLINATED = "nízkoenergetickou dietu";
 	const PROTEINS_DEFAULT = 82;
 
+	public static function getTitle(): string
+	{
+		return "Nízkoenergetická";
+	}
+
 	public function calcWeightGoalEnergyExpenditure(Calculator $calculator): QuantityMetricResult
 	{
 		$result = new QuantityMetricResult(new WeightGoalEnergyExpenditureMetric);

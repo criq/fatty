@@ -20,6 +20,11 @@ class Standard extends \Fatty\Approach
 	const CODE = "STANDARD";
 	const LABEL_DECLINATED = "standardní dietu";
 
+	public static function getTitle(): string
+	{
+		return "Standardní";
+	}
+
 	public function calcGoalNutrients(Calculator $calculator): MetricResultCollection
 	{
 		$carbsResult = new QuantityMetricResult(new GoalNutrientsCarbsMetric);

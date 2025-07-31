@@ -24,6 +24,7 @@ abstract class Approach
 	const PROTEINS_DEFAULT = null;
 
 	abstract public function calcGoalNutrients(Calculator $calculator): MetricResultCollection;
+	abstract public static function getTitle(): string;
 
 	public function __toString(): string
 	{

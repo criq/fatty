@@ -21,6 +21,11 @@ class LowCarb extends \Fatty\Approach
 	const CODE = "LOW_CARB";
 	const LABEL_DECLINATED = "nízkosacharidovou dietu";
 
+	public static function getTitle(): string
+	{
+		return "Nízkosacharidová";
+	}
+
 	public function calcGoalNutrients(Calculator $calculator): MetricResultCollection
 	{
 		$carbsResult = new QuantityMetricResult(new GoalNutrientsCarbsMetric);

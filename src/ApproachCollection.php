@@ -20,6 +20,18 @@ class ApproachCollection extends \ArrayObject
 		]);
 	}
 
+	public function filterByCode($code): self
+	{
+		return new static(array_values(array_filter($this->getArrayCopy(), function (Approach $approach) use ($code) {
+			return $approach->getCode() == $code;
+		})));
+	}
+
+	public function getFirst(): ?Approach
+	{
+		return array_values($this->getArrayCopy())[0] ?? null;
+	}
+
 	public function getAssoc(): ApproachCollection
 	{
 		return new static(array_combine(

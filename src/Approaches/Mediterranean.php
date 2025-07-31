@@ -18,6 +18,11 @@ class Mediterranean extends Standard
 	const CODE = "MEDITERRANEAN";
 	const LABEL_DECLINATED = "středomořskou dietu";
 
+	public static function getTitle(): string
+	{
+		return "Středomořská";
+	}
+
 	public function calcGoalNutrients(Calculator $calculator): MetricResultCollection
 	{
 		$carbsResult = new QuantityMetricResult(new GoalNutrientsCarbsMetric);

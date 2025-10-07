@@ -6,7 +6,6 @@ use Fatty\Errors\MissingDietApproachError;
 use Fatty\Exceptions\InvalidDietCarbsException;
 use Fatty\Exceptions\MissingDietApproachException;
 use Fatty\Metrics\DietApproachMetric;
-use Fatty\Metrics\StringMetric;
 use Fatty\Metrics\StringMetricResult;
 use Fatty\Nutrients\Carbs;
 use Katu\Errors\Error;

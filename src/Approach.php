@@ -10,8 +10,12 @@ use Fatty\Metrics\WeightGoalEnergyExpenditureMetric;
 use Fatty\Nutrients\Carbs;
 use Fatty\Nutrients\Fats;
 use Fatty\Nutrients\Proteins;
+use Katu\Tools\Options\OptionCollection;
+use Katu\Tools\Rest\RestResponse;
+use Katu\Tools\Rest\RestResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-abstract class Approach
+abstract class Approach implements RestResponseInterface
 {
 	const CARBS_DEFAULT = null;
 	const CARBS_MAX = null;
@@ -132,5 +136,14 @@ abstract class Approach
 		}
 
 		return $result;
+	}
+
+	public function getRestResponse(?ServerRequestInterface $request = null, ?OptionCollection $options = null): RestResponse
+	{
+		return new RestResponse([
+			"code" => $this->getCode(),
+			"title" => $this->getTitle(),
+			"declinatedLabel" => $this->getDeclinatedLabel(),
+		]);
 	}
 }

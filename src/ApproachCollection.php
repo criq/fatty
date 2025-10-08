@@ -2,7 +2,12 @@
 
 namespace Fatty;
 
-class ApproachCollection extends \ArrayObject
+use Katu\Tools\Options\OptionCollection;
+use Katu\Tools\Rest\RestResponse;
+use Katu\Tools\Rest\RestResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+class ApproachCollection extends \ArrayObject implements RestResponseInterface
 {
 	public static function createDefault(): ApproachCollection
 	{
@@ -40,5 +45,15 @@ class ApproachCollection extends \ArrayObject
 			}, $this->getArrayCopy()),
 			array_values($this->getArrayCopy()),
 		));
+	}
+
+	public function getRestResponse(?ServerRequestInterface $request = null, ?OptionCollection $options = null): RestResponse
+	{
+		$data = [];
+		foreach ($this as $approach) {
+			$data[] = $approach->getRestResponse($request, $options)->getPayload();
+		}
+
+		return new RestResponse($data);
 	}
 }

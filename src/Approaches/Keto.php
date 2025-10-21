@@ -32,6 +32,7 @@ class Keto extends \Fatty\Approach
 		$proteinsResult = $this->calcGoalNutrientsProteins($calculator);
 
 		$rdiResult = $calculator->calcReferenceDailyIntake();
+		$carbsResult->addErrors($rdiResult->getErrors());
 		$fatsResult->addErrors($rdiResult->getErrors());
 
 		if (!$carbsResult->hasErrors() && !$fatsResult->hasErrors() && !$proteinsResult->hasErrors()) {

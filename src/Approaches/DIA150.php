@@ -31,27 +31,31 @@ class DIA150 extends \Fatty\Approach
 		$proteinsResult = $this->calcGoalNutrientsProteins($calculator);
 
 		$rdiResult = $calculator->calcReferenceDailyIntake();
+		$carbsResult->addErrors($rdiResult->getErrors());
+		$fatsResult->addErrors($rdiResult->getErrors());
 
-		$nutrients = new Nutrients;
-		$nutrients->setProteins($proteinsResult->getResult());
+		if (!$carbsResult->hasErrors() && !$fatsResult->hasErrors() && !$proteinsResult->hasErrors()) {
+			$nutrients = new Nutrients;
+			$nutrients->setProteins($proteinsResult->getResult());
 
-		$carbs = new Carbs(new Amount(static::CARBS_DEFAULT), "g");
-		$nutrients->setCarbs($carbs);
+			$carbs = new Carbs(new Amount(static::CARBS_DEFAULT), "g");
+			$nutrients->setCarbs($carbs);
 
-		$fats = Fats::createFromEnergy(
-			new Energy(
-				new Amount(
-					$rdiResult->getResult()->getInUnit(Energy::getBaseUnit())->getNumericalValue() - $nutrients->getEnergy()->getInBaseUnit()->getAmount()->getValue()
+			$fats = Fats::createFromEnergy(
+				new Energy(
+					new Amount(
+						$rdiResult->getResult()->getInUnit(Energy::getBaseUnit())->getNumericalValue() - $nutrients->getEnergy()->getInBaseUnit()->getAmount()->getValue()
+					),
+					Energy::getBaseUnit(),
 				),
-				Energy::getBaseUnit(),
-			),
-		);
+			);
 
-		$nutrients->setFats($fats);
+			$nutrients->setFats($fats);
 
-		$carbsResult->setResult($nutrients->getCarbs());
-		$fatsResult->setResult($nutrients->getFats());
-		$proteinsResult->setResult($nutrients->getProteins());
+			$carbsResult->setResult($nutrients->getCarbs());
+			$fatsResult->setResult($nutrients->getFats());
+			$proteinsResult->setResult($nutrients->getProteins());
+		}
 
 		return new MetricResultCollection([
 			$carbsResult,

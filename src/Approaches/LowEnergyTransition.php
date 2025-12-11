@@ -100,7 +100,7 @@ class LowEnergyTransition extends \Fatty\Approach
 			$ketoCalculator->setDiet(new \Fatty\Diet(new \Fatty\Approaches\Keto));
 			$ketoWeightGoalEnergyExpenditure = $ketoCalculator->calcWeightGoalEnergyExpenditure()->getResult();
 
-			if ($day->getWeightGoalEnergyExpenditure()->getInUnit(static::ENERGY_UNIT)->getAmount()->getValue() > $ketoWeightGoalEnergyExpenditure->getInUnit(static::ENERGY_UNIT)->getNumericalValue()) {
+			if ($ketoWeightGoalEnergyExpenditure && $day->getWeightGoalEnergyExpenditure()->getInUnit(static::ENERGY_UNIT)->getAmount()->getValue() > $ketoWeightGoalEnergyExpenditure->getInUnit(static::ENERGY_UNIT)->getNumericalValue()) {
 				$day->setWeightGoalEnergyExpenditure($ketoWeightGoalEnergyExpenditure);
 				$day->setIsTransitionFinished(true);
 			}

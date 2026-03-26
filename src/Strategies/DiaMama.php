@@ -12,18 +12,43 @@ use Fatty\Metrics\WeightGoalQuotientMetric;
 use Fatty\Strategy;
 use Fatty\Weight;
 
+/**
+ * Strategy for pregnant women and new mothers (children < 6 months).
+ *
+ * Activated automatically by Calculator::getStrategy() when the user
+ * is either pregnant or a new mother. Overrides BMI weight source and
+ * replaces user-chosen weight goals with BMI-derived quotients safe
+ * for pregnancy / postpartum.
+ */
 class DiaMama extends Strategy
 {
+	/**
+	 * For BMI calculation, prefer the weight recorded before pregnancy
+	 * (growing belly would skew BMI). Falls back to current weight when
+	 * pregnancy data is missing — e.g. postpartum new mothers who no
+	 * longer have an active pregnancy record.
+	 */
 	public function getBodyMassIndexWeight(Calculator $calculator): ?Weight
 	{
-		return $calculator->getGender()->getPregnancy()->getWeightBeforePregnancy();
+		$pregnancy = $calculator->getGender() ? $calculator->getGender()->getPregnancy() : null;
+		if ($pregnancy) {
+			$weight = $pregnancy->getWeightBeforePregnancy();
+			if ($weight) {
+				return $weight;
+			}
+		}
+
+		return $calculator->getWeight();
 	}
 
+	/**
+	 * Weight-goal quotient derived from BMI instead of user-chosen vector.
+	 * Prevents aggressive caloric deficits during pregnancy / postpartum.
+	 */
 	public function calcWeightGoalQuotient(Calculator $calculator): AmountMetricResult
 	{
 		$result = new AmountMetricResult(new WeightGoalQuotientMetric);
 
-		// Body Mass Index se musí počítat z hmotnosti před otěhotněním.
 		$bodyMassIndexResult = $calculator->calcBodyMassIndex();
 		$result->addErrors($bodyMassIndexResult->getErrors());
 
@@ -31,17 +56,13 @@ class DiaMama extends Strategy
 			$bodyMassIndexValue = $bodyMassIndexResult->getResult()->getNumericalValue();
 
 			if ($bodyMassIndexValue <= 19) {
-				// BMI pod 19 včetně => cíl vlastně přibírání, WGEE = TDEE * 1,1
-				$weightGoalQuotient = 1.1;
-			} elseif ($bodyMassIndexValue > 19 && $bodyMassIndexValue < 25) {
-				// BMI 19,1 až 24,9 => cíl udržování WGEE = TDEE * 1
-				$weightGoalQuotient = 1;
-			} elseif ($bodyMassIndexValue >= 25 && $bodyMassIndexValue < 30) {
-				// BMI 25 až 29,9 => cíl “lehké hubnutí” WGEE = TDEE * 0,93
-				$weightGoalQuotient = .93;
+				$weightGoalQuotient = 1.1;   // podváha → mírné přibírání
+			} elseif ($bodyMassIndexValue < 25) {
+				$weightGoalQuotient = 1;     // norma → udržování
+			} elseif ($bodyMassIndexValue < 30) {
+				$weightGoalQuotient = .93;   // nadváha → mírné hubnutí
 			} else {
-				// BMI více než 30 => cíl vlastně hubnutí WGEE = TDEE * 0,9
-				$weightGoalQuotient = .9;
+				$weightGoalQuotient = .9;    // obezita → hubnutí
 			}
 
 			$result->setResult(new Amount($weightGoalQuotient));
@@ -50,6 +71,9 @@ class DiaMama extends Strategy
 		return $result;
 	}
 
+	/**
+	 * WGEE = TDEE × weight-goal quotient.
+	 */
 	public function calcWeightGoalEnergyExpenditure(Calculator $calculator): QuantityMetricResult
 	{
 		$result = new QuantityMetricResult(new WeightGoalEnergyExpenditureMetric);

@@ -11,8 +11,8 @@
 	],
 	"require" : {
 		"php": ">=8.4",
-		"criq/katu": "^4",
-		"criq/effekt": "^4"
+		"criq/katu": "^8",
+		"criq/effekt": "^8"
 	},
 	"autoload": {
 		"psr-4": {

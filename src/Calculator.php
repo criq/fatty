@@ -98,7 +98,7 @@ class Calculator implements RestResponseInterface
 
 		$params = $request->getQueryParams();
 
-		if (trim($params["gender"] ?? null)) {
+		if (trim($params["gender"] ?? "")) {
 			$genderValidation = Gender::validateGender(new UserInput("gender", $params["gender"]));
 			$validations[] = $genderValidation;
 
@@ -107,7 +107,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if ($calculator->getGender() instanceof \Fatty\Genders\Female && trim($params["pregnancy_childbirthDate"] ?? null)) {
+		if ($calculator->getGender() instanceof \Fatty\Genders\Female && trim($params["pregnancy_childbirthDate"] ?? "")) {
 			$childbirtDateValidation = Birthday::validateBirthday(new UserInput("pregnancy_childbirthDate", $params["pregnancy_childbirthDate"]));
 			$validations[] = $childbirtDateValidation;
 
@@ -116,7 +116,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if ($calculator->getGender() instanceof \Fatty\Genders\Female && trim($params["pregnancy_weightBeforePregnancy"] ?? null)) {
+		if ($calculator->getGender() instanceof \Fatty\Genders\Female && trim($params["pregnancy_weightBeforePregnancy"] ?? "")) {
 			$weightBeforePregnancyValidation = Weight::validateWeight(new UserInput("pregnancy_weightBeforePregnancy", $params["pregnancy_weightBeforePregnancy"]));
 			$validations[] = $weightBeforePregnancyValidation;
 
@@ -131,7 +131,7 @@ class Calculator implements RestResponseInterface
 				$breastfeedingModeKey = "children_{$match["index"]}_breastfeedingMode";
 
 				$childBirthdayInput = trim($value);
-				$childBreastfeedingModeInput = trim($params[$breastfeedingModeKey] ?? null);
+				$childBreastfeedingModeInput = trim($params[$breastfeedingModeKey] ?? "");
 
 				if (mb_strlen($childBirthdayInput)) {
 					$childBirthdayValidation = Birthday::validateBirthday(new UserInput($birthdayKey, $childBirthdayInput));
@@ -152,7 +152,7 @@ class Calculator implements RestResponseInterface
 			$calculator->getGender()->setChildren($children);
 		}
 
-		if (trim($params["birthday"] ?? null)) {
+		if (trim($params["birthday"] ?? "")) {
 			$birthdayValidation = Birthday::validateBirthday(new UserInput("birthday", $params["birthday"]));
 			$validations[] = $birthdayValidation;
 
@@ -161,7 +161,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["weight"] ?? null)) {
+		if (trim($params["weight"] ?? "")) {
 			$weightValidation = Weight::validateWeight(new UserInput("weight", $params["weight"]));
 			$validations[] = $weightValidation;
 
@@ -170,7 +170,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["proportions_height"] ?? null)) {
+		if (trim($params["proportions_height"] ?? "")) {
 			$heightValidation = Proportions::validateHeight(new UserInput("proportions_height", $params["proportions_height"]));
 			$validations[] = $heightValidation;
 
@@ -179,7 +179,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["proportions_waist"] ?? null)) {
+		if (trim($params["proportions_waist"] ?? "")) {
 			$waistValidation = Proportions::validateWaist(new UserInput("proportions_waist", $params["proportions_waist"]));
 			$validations[] = $waistValidation;
 
@@ -188,7 +188,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["proportions_hips"] ?? null)) {
+		if (trim($params["proportions_hips"] ?? "")) {
 			$hipsValidation = Proportions::validateHips(new UserInput("proportions_hips", $params["proportions_hips"]));
 			$validations[] = $hipsValidation;
 
@@ -197,7 +197,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["proportions_neck"] ?? null)) {
+		if (trim($params["proportions_neck"] ?? "")) {
 			$neckValidation = Proportions::validateNeck(new UserInput("proportions_neck", $params["proportions_neck"]));
 			$validations[] = $neckValidation;
 
@@ -206,7 +206,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["bodyFatPercentage"] ?? null)) {
+		if (trim($params["bodyFatPercentage"] ?? "")) {
 			$bodyFatPercentageValidation = static::validateBodyFatPercentage(new UserInput("bodyFatPercentage", $params["bodyFatPercentage"]));
 			$validations[] = $bodyFatPercentageValidation;
 
@@ -215,7 +215,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["activity"] ?? null)) {
+		if (trim($params["activity"] ?? "")) {
 			$activityValidation = Activity::validateActivity(new UserInput("activity", $params["activity"]));
 			$validations[] = $activityValidation;
 
@@ -224,7 +224,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["sportDurations_lowFrequency"] ?? null)) {
+		if (trim($params["sportDurations_lowFrequency"] ?? "")) {
 			$lowFrequencyValidation = SportDurations::validateLowFrequency(new UserInput("sportDurations_lowFrequency", $params["sportDurations_lowFrequency"]));
 			$validations[] = $lowFrequencyValidation;
 
@@ -233,7 +233,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["sportDurations_aerobic"] ?? null)) {
+		if (trim($params["sportDurations_aerobic"] ?? "")) {
 			$aerobicValidation = SportDurations::validateAerobic(new UserInput("sportDurations_aerobic", $params["sportDurations_aerobic"]));
 			$validations[] = $aerobicValidation;
 
@@ -242,7 +242,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["sportDurations_anaerobic"] ?? null)) {
+		if (trim($params["sportDurations_anaerobic"] ?? "")) {
 			$anaerobicValidation = SportDurations::validateAnaerobic(new UserInput("sportDurations_anaerobic", $params["sportDurations_anaerobic"]));
 			$validations[] = $anaerobicValidation;
 
@@ -251,7 +251,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["goal_vector"] ?? null)) {
+		if (trim($params["goal_vector"] ?? "")) {
 			$goalVectorValidation = Goal::validateVector(new UserInput("goal_vector", $params["goal_vector"]));
 			$validations[] = $goalVectorValidation;
 
@@ -263,10 +263,10 @@ class Calculator implements RestResponseInterface
 		$calculator->getGoal()->setDuration(new Duration(new Amount(12), "weeks"));
 
 		try {
-			$goalWeightString = trim($params["goal_weight"] ?? null);
+			$goalWeightString = trim($params["goal_weight"] ?? "");
 		} catch (\Throwable $e) {
 			try {
-				$goalWeightString = trim($params["goal_weight_{$params["goal_vector"]}"] ?? null);
+				$goalWeightString = trim($params["goal_weight_{$params["goal_vector"]}"] ?? "");
 			} catch (\Throwable $e) {
 				$goalWeightString = null;
 			}
@@ -283,7 +283,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["diet_approach"] ?? null)) {
+		if (trim($params["diet_approach"] ?? "")) {
 			$dietApproachValidation = Diet::validateApproach(new UserInput("diet_approach", $params["diet_approach"]));
 			$validations[] = $dietApproachValidation;
 
@@ -293,7 +293,7 @@ class Calculator implements RestResponseInterface
 		}
 
 		try {
-			$dietCarbsString = trim($params["diet_carbs"] ?? null);
+			$dietCarbsString = trim($params["diet_carbs"] ?? "");
 		} catch (\Throwable $e) {
 			try {
 				$dietCarbsString = trim($params["diet_carbs_{$params["diet_approach"]}"]);
@@ -313,7 +313,7 @@ class Calculator implements RestResponseInterface
 			}
 		}
 
-		if (trim($params["units"] ?? null)) {
+		if (trim($params["units"] ?? "")) {
 			$unitsValidation = static::validateUnits(new UserInput("units", $params["units"]));
 			$validations[] = $unitsValidation;
 

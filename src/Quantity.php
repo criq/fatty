@@ -17,7 +17,7 @@ abstract class Quantity implements \Effekt\QuantityInterface, ResultInterface
 	abstract public function getInBaseUnit(): Quantity;
 	abstract public function getInUnit(string $unit): Quantity;
 
-	public function __construct(Amount $amount, string $unit = null)
+	public function __construct(Amount $amount, ?string $unit = null)
 	{
 		$this->setAmount($amount);
 		$this->setUnit($unit);

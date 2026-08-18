@@ -10,6 +10,7 @@
 		}
 	],
 	"require" : {
+		"php": ">=8.4",
 		"criq/katu": "^4",
 		"criq/effekt": "^4"
 	},
